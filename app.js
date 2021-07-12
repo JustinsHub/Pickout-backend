@@ -21,9 +21,6 @@ app.use('/auth', authRoutes)
 app.use('/address', addressRoutes)
 app.use('/meals', productsRoutes)
 app.use('/stripe', stripePaymentRoutes)
-app.use('/', (req, res, next) => {
-    return res.json('hello')
-})
 
 app.use((error, req, res, next)=> {
     let status = error.status || 500
