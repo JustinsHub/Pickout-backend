@@ -17,7 +17,7 @@ app.use(morgan('dev'))
 app.use(authenticateJWT)
 
 app.use('/users', usersRoutes)
-app.use('/auth', authRoutes)
+app.use('auth', authRoutes)
 app.use('/address', addressRoutes)
 app.use('/meals', productsRoutes)
 app.use('/stripe', stripePaymentRoutes)
@@ -29,6 +29,5 @@ app.use((error, req, res, next)=> {
         error:{message, status}
     })
 })
-
 
 module.exports = app
