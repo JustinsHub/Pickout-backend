@@ -30,5 +30,4 @@ app.use((error, req, res, next)=> {
     })
 })
 
-process.on('unhandledRejection', e => { throw e; });
 module.exports = app
