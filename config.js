@@ -1,6 +1,10 @@
-const DB_URI = (process.env.NODE_ENV === "test") 
-? "postgresql:///Pickout_test" 
-: "postgresql:///Pickout";
+require("dotenv").config()
+
+function getDatabaseUri() {
+return (process.env.NODE_ENV === "test")
+    ? "Pickout_test"
+    : process.env.DATABASE_URL || "Pickout";
+}
 
 const PORT = +process.env.PORT || 5001
 
@@ -11,7 +15,7 @@ const BCRYPT_WORK_FACTOR = 12;
 const STRIPE_SECRET_KEY = "sk_test_51HscgAHbmlANNp9nAXqMZGzMbxSYJeCMqYUytQZX4rhSVr0NzNDIUQJtDesZFMtd2qEcji78KzgVzCfZH68FV9H200bBeMqptT"
 
 module.exports = {
-    DB_URI,
+    getDatabaseUri,
     PORT,
     SECRET_KEY,
     BCRYPT_WORK_FACTOR,
