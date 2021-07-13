@@ -30,9 +30,5 @@ app.use((error, req, res, next)=> {
     })
 })
 
-process.on('unhandledRejection', (reason, p) => {
-    console.error('Unhandled Rejection at:', p, 'reason:', reason)
-    process.exit(1)
-});
 
 module.exports = app
