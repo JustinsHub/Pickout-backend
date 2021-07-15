@@ -11,12 +11,12 @@ let testUsers;
 let testUserToken;
 
 beforeEach(async ()=>{
-    const hashedPw = bcrypt.hash('12345', BCRYPT_WORK_FACTOR)
+    const hashedPw = await bcrypt.hash('12345', BCRYPT_WORK_FACTOR)
     const user = await db.query(`INSERT INTO users (username, password, first_name, last_name, email) 
-                                VALUES ('Billy Bong', '${hashedPw}', 'Billy', 'Bong', '1111@gmail.com') 
-                                RETURNING id, username`)
+                                VALUES ('Billy Bong', $1, 'Billy', 'Bong', '1111@gmail.com') 
+                                RETURNING id, username`, [hashedPw])
     testUsers = user.rows[0]
-    testUserToken = jwt.sign(testUsers.id, SECRET_KEY)
+    testUserToken = jwt.sign(testUsers.id, SECRET_KEY)  
 })
 
 
@@ -38,7 +38,9 @@ describe('POST /register',()=>{
     test('Register a new user', async()=>{
         const res = await request(app)
             .post('/auth/register')
-                .send({username: 'Dexter', password: '12345', email: '1111@gmail.com'})
+                .send({username:'Dexter', 
+                        password: '12345', 
+                        email: '1111@gmail.com'})
         expect(res.statusCode).toBe(201)
         expect(res.body).toEqual({Registered: "Dexter", token: expect.any(String)})
     })
@@ -49,7 +51,8 @@ describe('POST /login', ()=>{
     test('Login a user', async()=>{
         const res = await request(app)
             .post('/auth/login')
-                .send({username: 'Billy Bong', password: '12345'})
+                .send({username:'Billy Bong', 
+                        password:'12345'})
         expect(res.statusCode).toBe(201)
         expect(res.body).toEqual({LoggedIn: "Billy Bong", token: expect.any(String)})
     })

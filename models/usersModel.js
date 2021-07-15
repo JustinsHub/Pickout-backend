@@ -60,7 +60,7 @@ class User {
         throw new ExpressError('Username/Password are required.', 400)
     }
 
-    //check user password for extra authenication
+    //check user password for extra authentication
     static async checkPassword(id, password){ //keep this for now
         const results = await db.query(`SELECT id, password FROM users WHERE id=$1`, [id])
         const userId = results.rows[0]
