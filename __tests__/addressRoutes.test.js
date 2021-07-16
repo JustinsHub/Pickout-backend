@@ -13,12 +13,14 @@ let testUserToken;
 
 
 beforeEach(async ()=>{
+    //inset a test user
     const hashedPw = await bcrypt.hash('12345', BCRYPT_WORK_FACTOR)
     const users = await db.query(`INSERT INTO users (username, password, first_name, last_name, email) 
                                 VALUES ('Billy Frong', $1, 'Billy', 'Bong', '1111@gmail.com') 
                                 RETURNING id, username`, [hashedPw])
     testUsers = users.rows[0]
 
+    //must insert to be able to apply users_id to address_id
     const userAddress = await db.query(`INSERT INTO user_address (user_id)
                                         VALUES ($1) RETURNING user_id`,
                                         [testUsers.id])
@@ -55,6 +57,15 @@ describe('PATCH /address/update/:id', ()=>{
                         zip_code: 90029,
                         country: 'United States'})
         expect(res.statusCode).toBe(201)
+        expect(res.body).toEqual({
+            user_id: testUsersAddress.user_id,
+            street_address: '1111 Avenue',
+            address_number: 2,
+            city: 'Los Angeles',
+            state: 'CA',
+            zip_code: 90029,
+            country: 'United States'
+        })
     })
 })
 
