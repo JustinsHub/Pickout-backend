@@ -28,7 +28,10 @@ class Address {
                                     FROM user_address 
                                     WHERE user_id=$1`, [user_id])
         const a = res.rows[0]
+        if(a) {
         return new Address(a.user_id, a.street_address, a.address_number, a.city, a.state, a.zip_code, a.country)
+        }
+        throw new ExpressError('User not found.', 404)
     }
 
     //register address when users registers (foreign key constraint)

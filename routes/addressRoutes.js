@@ -18,7 +18,9 @@ router.get('/:id', async(req, res, next)=> {
     try{
         const {id} = req.params
         const results = await Address.getAddressId(id)
-        return res.json(results)
+            if(results){
+                return res.json(results)
+            }
     }catch(e){
         return next(e)
     }

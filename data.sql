@@ -18,7 +18,7 @@ CREATE TABLE users (
 
 CREATE TABLE user_address (
     user_id INTEGER,
-    street_address TEXT,
+    street_address TEXT NOT NULL,
     address_number INTEGER,
     city TEXT,
     state TEXT,
