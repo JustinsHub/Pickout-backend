@@ -16,7 +16,7 @@ beforeEach(async ()=>{
     //inset a test user
     const hashedPw = await bcrypt.hash('12345', BCRYPT_WORK_FACTOR)
     const users = await db.query(`INSERT INTO users (username, password, first_name, last_name, email) 
-                                VALUES ('Billy Frong', $1, 'Billy', 'Bong', '1111@gmail.com') 
+                                VALUES ('Billy Crong', $1, 'Billy', 'Bong', '1111@gmail.com') 
                                 RETURNING id, username`, [hashedPw])
     testUsers = users.rows[0]
 

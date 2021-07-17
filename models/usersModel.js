@@ -57,7 +57,7 @@ class User {
             return user;
             }
         }
-        throw new ExpressError('Username/Password are required.', 400)
+        throw new ExpressError('Username/Password is invalid.', 400)
     }
 
     //check user password for extra authentication
