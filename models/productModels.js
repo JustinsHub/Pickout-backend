@@ -20,18 +20,20 @@ class Product {
 
     //signature Meal purchase
     static async signatureMealPurchase(userId, mealId) {
-        await db.query(
+        const signatureMeal = await db.query(
             //must match the exact DB names when inserting
             `INSERT INTO purchases (user_id, signature_meal, purchased_on)
-            VALUES ($1, $2, $3)`, [userId, mealId, timePurchased]
+            VALUES ($1, $2, $3) RETURNING id`, [userId, mealId, timePurchased]
         )
+        return signatureMeal.rows[0]
     }
 
     //pair Meal query (wine add on)
     static async pairMealPurchase(userId, mealId, pairId){
-        const res = await db.query(
+        const pairMeal = await db.query(
                 `INSERT INTO purchases (user_id, signature_meal, pair_meal, purchased_on)
-                VALUES ($1, $2, $3, $4)`, [userId, mealId, pairId, timePurchased])
+                VALUES ($1, $2, $3, $4) RETURNING id`, [userId, mealId, pairId, timePurchased])
+        return pairMeal.rows[0]
     }
 }
 

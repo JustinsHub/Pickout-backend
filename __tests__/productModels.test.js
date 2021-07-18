@@ -12,7 +12,7 @@ let signatureMeal;
 let pairMeal;
 
 beforeEach(async ()=>{
-    //inset a test user
+    //insert a test user
     const hashedPw = await bcrypt.hash('12345', BCRYPT_WORK_FACTOR)
     const users = await db.query(`INSERT INTO users (username, password, first_name, last_name, email) 
                                 VALUES ('Billy Bong', $1, 'Billy', 'Bong', '1111@gmail.com') 
@@ -42,20 +42,36 @@ describe('Get signature meal', ()=>{
 describe('Get pair meal', ()=>{
     test('Get info about pair meal', async()=>{
         const pairMeal = await Product.getPairMeal()
-        expect(signatureMeal).toEqual({
+        expect(pairMeal).toEqual({
             id: pairMeal.id,
             price: "7.99"
         })
     })
 })
 
-//Inserting using signatureMealPurchase method
-describe('Purchase signature meal', )
+describe('Signature Meal Purchase', ()=>{
+    test('When purchasing signature meal method applies', async()=> {
+        const newSignatureMealPurchase = await Product.signatureMealPurchase(testUsers.id, signatureMeal.id)
+        expect(newSignatureMealPurchase).toEqual({
+            id: expect.any(Number)
+        })
+    }) 
+})
+
+describe('Pair Meal Purchase', ()=>{
+    test('When purchasing pair meal method applies', async()=> {
+        const newPairMealPurchase = await Product.pairMealPurchase(testUsers.id, signatureMeal.id, pairMeal.id)
+        expect(newPairMealPurchase).toEqual({
+            id: expect.any(Number)
+        })
+    })
+})
 
 afterEach(async ()=>{
     await db.query('DELETE FROM users')
     await db.query('DELETE FROM signature_meal')
     await db.query('DELETE FROM pair_meal')
+    await db.query('DELETE FROM purchases')
 })
 
 afterAll(async ()=>{
