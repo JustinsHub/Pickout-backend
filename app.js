@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth')
 const productsRoutes = require('./routes/productRoutes')
 const addressRoutes = require('./routes/addressRoutes')
 const stripePaymentRoutes = require('./routes/stripePaymentRoutes')
+require("dotenv").config()
 
 const app = express()
 
